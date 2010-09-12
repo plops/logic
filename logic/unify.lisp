@@ -1,3 +1,4 @@
+(in-package :logic)
 (defconstant fail nil)
 (defconstant no-bindings (if (constantp 'no-bindings)
 			     no-bindings
@@ -84,11 +85,6 @@
  (unify '(?x ?y ?a) '(?y ?x ?x))
  (unify '?x '(f ?x)))
 
-(defun reuse-cons (x y x-y)
-  (if (and (eql x (car x-y)) (eql y (cdr x-y)))
-      x-y
-      (cons x y)))
-
 (defun subst-bindings (bindings x)
   (cond ((eq bindings fail) fail)
 	((eq bindings no-bindings) x)
@@ -98,3 +94,10 @@
 	(t (reuse-cons (subst-bindings bindings (car x))
 		       (subst-bindings bindings (cdr x))
 		       x))))
+
+(defun unifier (x y)
+  (subst-bindings (unify x y) x))
+
+#+nil
+(list
+ (unifier '(?x ?y a) '(?y ?x ?x)))
