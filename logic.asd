@@ -3,4 +3,5 @@
 			:serial t
 			:components ((:file "package")
 				     (:file "utils")
-				     (:file "unify")))))
+				     (:file "unify")
+				     (:file "prolog0")))))

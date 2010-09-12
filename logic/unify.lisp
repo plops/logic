@@ -99,5 +99,4 @@
   (subst-bindings (unify x y) x))
 
 #+nil
-(list
- (unifier '(?x ?y a) '(?y ?x ?x)))
+(unifier '(?x ?y a) '(?y ?x ?x))
