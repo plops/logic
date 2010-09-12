@@ -1,4 +1,4 @@
-(asdf:defsystem gui
+(asdf:defsystem logic
   :components ((:module "logic"
 			:serial t
 			:components ((:file "package")
