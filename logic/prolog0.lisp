@@ -63,16 +63,43 @@
 				  bindings))))
 	  (get-clauses (predicate goal))))
 
+(defun show-prolog-vars (vars bindings)
+  (if (null vars)
+      (format t "~&Yes.")
+      (dolist (var vars)
+	(format t "~&~a = ~a"
+		var (subst-bindings bindings var))))
+  (princ ";"))
+
+(defun show-prolog-solutions (vars solutions)
+  (if (null solutions)
+      (format t "~&No.")
+      (mapc #'(lambda (solution)
+		(show-prolog-vars vars solution))
+	    solutions))
+  (values))
+
+(defun top-level-prove (goals)
+  (show-prolog-solutions (variables-in goals)
+			 (prove-all goals no-bindings)))
+
 (defmacro ?- (&rest goals)
-  `(prove-all ',goals no-bindings))
+  `(top-level-prove ',goals))
 
 #+nil
 (progn
+  (clear-db)
   (<- (likes Kim Robin))
   (<- (likes Sandy Lee))
   (<- (likes Sandy Kim))
   (<- (likes Robin cats))
   (<- (likes Sandy ?x) (likes ?x cats))
   (<- (likes Kim ?x) (likes ?x Lee) (likes ?x Kim))
-  (<- (likes ?x ?x))
-  (?- (likes Sandy ?who)))
+  (<- (likes ?x ?x)))
+
+#+nil
+(?- (likes Sandy ?who))
+#+nil
+(?- (likes ?who Sandy))
+#+nil
+(?- (likes Robin Lee))
